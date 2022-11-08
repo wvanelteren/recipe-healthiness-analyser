@@ -9,50 +9,27 @@ from recipe_healthiness_analyser.recipe_analyser.constants.constants import (
     NUTRITION_API_URL,
 )
 from recipe_healthiness_analyser.recipe_analyser.recipe import Recipe
+from recipe_healthiness_analyser.recipe_analyser.recipe_analyser_interface import (
+    RecipeAnalyserInterface,
+)
 
 
-class RecipeAnalyser:
-    def analyse_nutrients(self, recipe: Recipe) -> Recipe:
+class RecipeAnalyser(RecipeAnalyserInterface):
+    def __init__(self, recipe: Recipe):
+        self.recipe_info: dict[str, any] = self.__fetch_recipe_info_from_api(
+            recipe=recipe
+        )
+
+    def __fetch_recipe_info_from_api(self, recipe: Recipe) -> dict[str, any]:
         """
-        Creates a new Recipe TypedDict with additional nutrients as attribute:
-        - calories {float}
-        - sugar {float}
-        - saturatedfat {float}
-        - sodium {float}
-        - protein {float}
-        - fiber {float}
-        - percentage_fvn {float}
-
-
+        Fetches all recipe info from Spoonacular's "Analyze Recipe" endpoint
 
         Arguments:
-            recipe {Recipe} -- Recipe TypedDict without nutrition attributes
+            recipe {Recipe} -- recipe
 
         Returns:
-            Recipe -- Recipe TypedDict with added nutrition attributes
+            dict[str, any] -- recipe's information stored in a dictionary of flattened json
         """
-        recipe_info: object = self.__fetch_recipe_info_from_api(recipe=recipe)
-        parsed_recipe: Recipe = Recipe(
-            id=recipe["id"],
-            author=recipe["author"],
-            followers=recipe["followers"],
-            date=recipe["date"],
-            media=recipe["media"],
-            likes=recipe["likes"],
-            comments=recipe["comments"],
-            ingredient_list=recipe["ingredient_list"],
-            servings=recipe["servings"],
-            calories=self.__get_calories(recipe_info),
-            sugar=self.__get_sugar(recipe_info),
-            saturated_fat=self.__get_saturated_fat(recipe_info),
-            sodium=self.__get_sodium(recipe_info),
-            protein=self.__get_protein(recipe_info),
-            fiber=self.__get_fiber(recipe_info),
-            percentage_fvn=self.__get_vfn(recipe_info),
-        )
-        return parsed_recipe
-
-    def __fetch_recipe_info_from_api(self, recipe: Recipe) -> object:
         querystring: dict[str, str] = {
             "language": "en",
             "includeNutrition": "true",
@@ -62,7 +39,7 @@ class RecipeAnalyser:
         payload: dict[str, str] = {
             "title": str(recipe["id"]),
             "servings": str(recipe["servings"]),
-            "ingredients": recipe["ingredient_list"],  # type: ignore
+            "ingredients": str(recipe["ingredient_list"]),
         }
 
         response: requests.Response = requests.request(
@@ -72,51 +49,54 @@ class RecipeAnalyser:
             headers=HEADER_NUTRITION,
             params=querystring,
         )
-        json_data: object = json.loads(response.text)
-        recipe_info: object = json_data
+        recipe_info: dict[str, any] = json.loads(response.text)
         return recipe_info
 
-    def __get_weight(self, recipe_info: object) -> float:
-        return recipe_info["nutrition"]["weightPerServing"]["amount"]  # type: ignore
-
-    def __get_calories(self, recipe_info: object) -> float:
+    def get_calories(self) -> float:
+        """Returns recipe's calorie content per 100 gram"""
         total_calories: float = self.__convert_to_kj(
-            calories=recipe_info["nutrition"]["nutrients"][0]["amount"]  # type: ignore
+            calories=self.recipe_info["nutrition"]["nutrients"][0]["amount"]
         )  # type: ignore
-        calories_per_100g: float = total_calories / self.__get_weight(recipe_info) * 100
+        calories_per_100g: float = total_calories / self.__get_weight() * 100
         return calories_per_100g
 
-    def __get_sugar(self, recipe_info: object) -> float:
-        total_sugar: float = recipe_info["nutrition"]["nutrients"][5]["amount"]  # type: ignore
-        sugar_per_100g: float = total_sugar / self.__get_weight(recipe_info) * 100
+    def get_sugar(self) -> float:
+        """Returns recipe's sugar content per 100 gram"""
+        total_sugar: float = self.recipe_info["nutrition"]["nutrients"][5]["amount"]
+        sugar_per_100g: float = total_sugar / self.__get_weight() * 100
         return sugar_per_100g
 
-    def __get_saturated_fat(self, recipe_info: object) -> float:
-        total_saturated_fat: float = recipe_info["nutrition"]["nutrients"][2]["amount"]  # type: ignore
-        saturated_fat_per_100g: float = (
-            total_saturated_fat / self.__get_weight(recipe_info) * 100
-        )
+    def get_saturated_fat(self) -> float:
+        """Returns recipe's saturated fat content per 100 gram"""
+        total_saturated_fat: float = self.recipe_info["nutrition"]["nutrients"][2][
+            "amount"
+        ]
+        saturated_fat_per_100g: float = total_saturated_fat / self.__get_weight() * 100
         return saturated_fat_per_100g
 
-    def __get_sodium(self, recipe_info: object) -> float:
-        total_sodium: float = recipe_info["nutrition"]["nutrients"][7]["amount"]  # type: ignore
-        sodium_per_100g: float = total_sodium / self.__get_weight(recipe_info) * 100
+    def get_sodium(self) -> float:
+        """Returns recipe's sodium content per 100 gram"""
+        total_sodium: float = self.recipe_info["nutrition"]["nutrients"][7]["amount"]
+        sodium_per_100g: float = total_sodium / self.__get_weight() * 100
         return sodium_per_100g
 
-    def __get_protein(self, recipe_info: object) -> float:
-        total_protein: float = recipe_info["nutrition"]["nutrients"][8]["amount"]  # type: ignore
-        protein_per_100g: float = total_protein / self.__get_weight(recipe_info) * 100
+    def get_protein(self) -> float:
+        """Returns recipe's protein content per 100 gram"""
+        total_protein: float = self.recipe_info["nutrition"]["nutrients"][8]["amount"]
+        protein_per_100g: float = total_protein / self.__get_weight() * 100
         return protein_per_100g
 
-    def __get_fiber(self, recipe_info: object) -> float:
-        total_fiber: float = recipe_info["nutrition"]["nutrients"][12]["amount"]  # type: ignore
-        fiber_per_100g: float = total_fiber / self.__get_weight(recipe_info) * 100
+    def get_fiber(self) -> float:
+        """Returns recipe's fiber content per 100 gram"""
+        total_fiber: float = self.recipe_info["nutrition"]["nutrients"][12]["amount"]
+        fiber_per_100g: float = total_fiber / self.__get_weight() * 100
         return fiber_per_100g
 
-    def __get_vfn(self, recipe_info: object) -> float:
+    def get_vfn(self) -> float:
+        """Returns the percentage that a recipe consists of either fruit, nuts or vegatables"""
         vfn_amount: float = 0
 
-        for ingredient in recipe_info["extendedIngredients"]:  # type: ignore
+        for ingredient in self.recipe_info["extendedIngredients"]:
             if self.__is_vfn(ingredient["id"]):
                 if ingredient["unit"] != "gr" or ingredient["unit"] != "g":
                     vfn_amount += self.__convert_to_grams(
@@ -127,17 +107,39 @@ class RecipeAnalyser:
         return vfn_amount
 
     def __is_vfn(self, ingredient_id: int) -> bool:
+        """Checks whether ingredient is either a vegetable. fruit or nut"""
         URL = f"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/{ingredient_id}/information"
         response: requests.Response = requests.request("GET", URL, headers=HEADER)
-        ingredient_info: object = json.loads(response.text)
+        ingredient_info: dict[str, any] = json.loads(response.text)
 
         vfn: list[str] = ["fruit", "vegetable", "nut"]
-        if any(category in vfn for category in ingredient_info["categoryPath"]):  # type: ignore
+        if any(category in vfn for category in ingredient_info["categoryPath"]):
             return True
         return False
 
+    def __get_weight(self) -> int:
+        """Returns recipe's total weight"""
+        weight: int = self.recipe_info["nutrition"]["weightPerServing"]["amount"]
+        if weight == 0:
+            raise ValueError("Meal cannot weight 0 grams")
+        return weight
+
     @staticmethod
     def __convert_to_grams(ingredient: str, unit: str, amount: int) -> float:
+        """
+        Converts an ingredient's amount to grams via spoonacular's "Convert Amounts"
+        endpoint. This is needed for ingredients of which the amount needed
+        is not specified in grams.
+            Example: a pinch of salt -> 0.35 grams salt
+
+        Arguments:
+            ingredient {str} -- ingredient name
+            unit {str} -- type of unit (e.g. handful, gram, pinch, slice)
+            amount {int} -- amount of unit
+
+        Returns:
+            float -- ingredient's weight in grams
+        """
         querystring: dict[str, str] = {
             "ingredientName": ingredient,
             "targetUnit": "grams",
@@ -147,8 +149,11 @@ class RecipeAnalyser:
         response: requests.Response = requests.request(
             "GET", CONVERSION_API_URL, headers=HEADER, params=querystring
         )
-        ingredient_info: object = json.loads(response.text)
-        return ingredient_info["targetAmount"]  # type: ignore
+        ingredient_info: dict[str, any] = json.loads(response.text)
+        weight: float = ingredient_info["targetAmount"]
+        if weight == 0.0:
+            raise ValueError("ingredient cannot weight 0")
+        return weight
 
     @staticmethod
     def __convert_to_kj(calories: float) -> float:

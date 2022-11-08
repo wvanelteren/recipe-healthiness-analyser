@@ -70,9 +70,26 @@ def analyse_recipes(recipes: list[Recipe]) -> list[Recipe]:
         list[Recipe] -- List of analysed Recipes
     """
     analysed_recipes: list[Recipe] = []
-    recipe_analyser: RecipeAnalyser = RecipeAnalyser()
     for recipe in recipes:
-        analysed_recipe: Recipe = recipe_analyser.analyse_nutrients(recipe=recipe)
+        recipe_analyser: RecipeAnalyser = RecipeAnalyser(recipe)
+        analysed_recipe: Recipe = Recipe(
+            id=recipe["id"],
+            author=recipe["author"],
+            followers=recipe["followers"],
+            date=recipe["date"],
+            media=recipe["media"],
+            likes=recipe["likes"],
+            comments=recipe["comments"],
+            ingredient_list=recipe["ingredient_list"],
+            servings=recipe["servings"],
+            calories=recipe_analyser.get_calories(),
+            sugar=recipe_analyser.get_sugar(),
+            saturated_fat=recipe_analyser.get_saturated_fat(),
+            sodium=recipe_analyser.get_sodium(),
+            protein=recipe_analyser.get_protein(),
+            fiber=recipe_analyser.get_fiber(),
+            percentage_fvn=recipe_analyser.get_vfn(),
+        )
         analysed_recipes.append(analysed_recipe)
     return analysed_recipes
 
