@@ -57,13 +57,13 @@ class RecipeAnalyser(RecipeAnalyserInterface):
         total_calories: float = self.__convert_to_kj(
             calories=self.recipe_info["nutrition"]["nutrients"][0]["amount"]
         )  # type: ignore
-        calories_per_100g: float = total_calories / self.__get_weight() * 100
+        calories_per_100g: float = total_calories / self.get_weight() * 100
         return calories_per_100g
 
     def get_sugar(self) -> float:
         """Returns recipe's sugar content per 100 gram"""
         total_sugar: float = self.recipe_info["nutrition"]["nutrients"][5]["amount"]
-        sugar_per_100g: float = total_sugar / self.__get_weight() * 100
+        sugar_per_100g: float = total_sugar / self.get_weight() * 100
         return sugar_per_100g
 
     def get_saturated_fat(self) -> float:
@@ -71,25 +71,25 @@ class RecipeAnalyser(RecipeAnalyserInterface):
         total_saturated_fat: float = self.recipe_info["nutrition"]["nutrients"][2][
             "amount"
         ]
-        saturated_fat_per_100g: float = total_saturated_fat / self.__get_weight() * 100
+        saturated_fat_per_100g: float = total_saturated_fat / self.get_weight() * 100
         return saturated_fat_per_100g
 
     def get_sodium(self) -> float:
         """Returns recipe's sodium content per 100 gram"""
         total_sodium: float = self.recipe_info["nutrition"]["nutrients"][7]["amount"]
-        sodium_per_100g: float = total_sodium / self.__get_weight() * 100
+        sodium_per_100g: float = total_sodium / self.get_weight() * 100
         return sodium_per_100g
 
     def get_protein(self) -> float:
         """Returns recipe's protein content per 100 gram"""
         total_protein: float = self.recipe_info["nutrition"]["nutrients"][8]["amount"]
-        protein_per_100g: float = total_protein / self.__get_weight() * 100
+        protein_per_100g: float = total_protein / self.get_weight() * 100
         return protein_per_100g
 
     def get_fiber(self) -> float:
         """Returns recipe's fiber content per 100 gram"""
         total_fiber: float = self.recipe_info["nutrition"]["nutrients"][12]["amount"]
-        fiber_per_100g: float = total_fiber / self.__get_weight() * 100
+        fiber_per_100g: float = total_fiber / self.get_weight() * 100
         return fiber_per_100g
 
     def get_vfn(self) -> float:
@@ -117,7 +117,7 @@ class RecipeAnalyser(RecipeAnalyserInterface):
             return True
         return False
 
-    def __get_weight(self) -> int:
+    def get_weight(self) -> int:
         """Returns recipe's total weight"""
         weight: int = self.recipe_info["nutrition"]["weightPerServing"]["amount"]
         if weight == 0:
