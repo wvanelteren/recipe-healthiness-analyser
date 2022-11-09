@@ -2,11 +2,9 @@ import json
 
 import requests
 
-from recipe_healthiness_analyser.recipe_analyser.constants.constants import (
+from recipe_healthiness_analyser.recipe_analyser.constants.constants import (  # HEADER_NUTRITION,; NUTRITION_API_URL,
     CONVERSION_API_URL,
     HEADER,
-    HEADER_NUTRITION,
-    NUTRITION_API_URL,
 )
 from recipe_healthiness_analyser.recipe_analyser.recipe import Recipe
 from recipe_healthiness_analyser.recipe_analyser.recipe_analyser_interface import (
@@ -15,10 +13,10 @@ from recipe_healthiness_analyser.recipe_analyser.recipe_analyser_interface impor
 
 
 class RecipeAnalyser(RecipeAnalyserInterface):
+    recipe_info: dict[str, any]
+
     def __init__(self, recipe: Recipe):
-        self.recipe_info: dict[str, any] = self.__fetch_recipe_info_from_api(
-            recipe=recipe
-        )
+        self.recipe_info = self.__fetch_recipe_info_from_api(recipe=recipe)
 
     def __fetch_recipe_info_from_api(self, recipe: Recipe) -> dict[str, any]:
         """
@@ -30,26 +28,28 @@ class RecipeAnalyser(RecipeAnalyserInterface):
         Returns:
             dict[str, any] -- recipe's information stored in a dictionary of flattened json
         """
-        querystring: dict[str, str] = {
-            "language": "en",
-            "includeNutrition": "true",
-            "includeTaste": "false",
-        }
+        # querystring: dict[str, str] = {
+        #     "language": "en",
+        #     "includeNutrition": "true",
+        #     "includeTaste": "false",
+        # }
 
-        payload: dict[str, str] = {
-            "title": str(recipe["id"]),
-            "servings": str(recipe["servings"]),
-            "ingredients": str(recipe["ingredient_list"]),
-        }
+        # payload: dict[str, str] = {
+        #     "title": str(recipe["id"]),
+        #     "servings": str(recipe["servings"]),
+        #     "ingredients": str(recipe["ingredient_list"]),
+        # }
 
-        response: requests.Response = requests.request(
-            "Post",
-            NUTRITION_API_URL,
-            json=payload,
-            headers=HEADER_NUTRITION,
-            params=querystring,
-        )
-        recipe_info: dict[str, any] = json.loads(response.text)
+        # response: requests.Response = requests.request(
+        #     "Post",
+        #     NUTRITION_API_URL,
+        #     json=payload,
+        #     headers=HEADER_NUTRITION,
+        #     params=querystring,
+        # )
+        # recipe_info: dict[str, any] = json.loads(response.text)
+        with open("tests/recipe-info.json") as json_file:
+            recipe_info: dict[str, any] = json.load(json_file)
         return recipe_info
 
     def get_calories(self) -> float:
