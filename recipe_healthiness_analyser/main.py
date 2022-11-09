@@ -9,7 +9,7 @@ def main() -> None:
     """
     recipes: list[Recipe] = load_recipes()
     analysed_recipes: list[Recipe] = analyse_recipes(recipes)
-    print(analysed_recipes)
+    save_recipes_to_csv(analysed_recipes)
 
 
 def load_recipes() -> list[Recipe]:
@@ -94,7 +94,12 @@ def analyse_recipes(recipes: list[Recipe]) -> list[Recipe]:
     return analysed_recipes
 
 
-def __convert_tolist(string):
+def save_recipes_to_csv(recipes: list[Recipe]) -> None:
+    df = pd.DataFrame.from_dict(recipes)
+    df.to_csv("analysed_recipes.csv")
+
+
+def __convert_tolist(string) -> list[str]:
     """
     Helpter function that converts a string to a list of strings by splitting the
     string when a comma is encountered

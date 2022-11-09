@@ -2,9 +2,11 @@ import json
 
 import requests
 
-from recipe_healthiness_analyser.recipe_analyser.constants.constants import (  # HEADER_NUTRITION, NUTRITION_API_URL,
+from recipe_healthiness_analyser.recipe_analyser.nutrition.constants.api_requests import (
     CONVERSION_API_URL,
     HEADER,
+    HEADER_NUTRITION,
+    NUTRITION_API_URL,
 )
 from recipe_healthiness_analyser.recipe_analyser.nutrition.nutrition_analyser_interface import (
     NutritionAnalyserInterface,
@@ -33,28 +35,26 @@ class SpoonacularNutritionAnalyser(NutritionAnalyserInterface):
         Returns:
             dict[str, any] -- recipe's information stored in a dictionary of flattened json
         """
-        # querystring: dict[str, str] = {
-        #     "language": "en",
-        #     "includeNutrition": "true",
-        #     "includeTaste": "false",
-        # }
+        querystring: dict[str, str] = {
+            "language": "en",
+            "includeNutrition": "true",
+            "includeTaste": "false",
+        }
 
-        # payload: dict[str, str] = {
-        #     "title": title,
-        #     "servings": servings,
-        #     "ingredients": str(ingredients),
-        # }
+        payload: dict[str, str] = {
+            "title": title,
+            "servings": servings,
+            "ingredients": str(ingredients),
+        }
 
-        # response: requests.Response = requests.request(
-        #     "Post",
-        #     NUTRITION_API_URL,
-        #     json=payload,
-        #     headers=HEADER_NUTRITION,
-        #     params=querystring,
-        # )
-        # recipe_info: dict[str, any] = json.loads(response.text)
-        with open("tests/recipe-info.json") as json_file:
-            recipe_info: dict[str, any] = json.load(json_file)
+        response: requests.Response = requests.request(
+            "Post",
+            NUTRITION_API_URL,
+            json=payload,
+            headers=HEADER_NUTRITION,
+            params=querystring,
+        )
+        recipe_info: dict[str, any] = json.loads(response.text)
         return recipe_info
 
     def get_calories(self) -> float:
