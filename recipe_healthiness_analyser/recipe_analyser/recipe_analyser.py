@@ -55,10 +55,17 @@ class RecipeAnalyser(RecipeAnalyserInterface):
             recipe_info: dict[str, any] = json.load(json_file)
         return recipe_info
 
-    def get_nutriscore(self) -> int:
+    def get_healthiness_score(self) -> int:
         nutri_score_analyser: NutriScoreAnalyser = NutriScoreAnalyser()
-        score: int = nutri_score_analyser.calculate_calories_score(self.get_calories())
-        return score
+        return nutri_score_analyser.calculate_healthiness_score(
+            calories=self.get_calories(),
+            sugar=self.get_sugar(),
+            saturated_fat=self.get_saturated_fat(),
+            sodium=self.get_sodium(),
+            protein=self.get_protein(),
+            fiber=self.get_fiber(),
+            vfn_percentage=self.get_vfn(),
+        )
 
     def get_calories(self) -> float:
         """Returns recipe's calorie content per 100 gram"""
@@ -96,7 +103,7 @@ class RecipeAnalyser(RecipeAnalyserInterface):
 
     def get_fiber(self) -> float:
         """Returns recipe's fiber content per 100 gram"""
-        total_fiber: float = self.recipe_info["nutrition"]["nutrients"][12]["amount"]
+        total_fiber: float = self.recipe_info["nutrition"]["nutrients"][17]["amount"]
         fiber_per_100g: float = total_fiber / self.get_weight() * 100
         return fiber_per_100g
 
