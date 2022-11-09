@@ -4,9 +4,9 @@ from enum import Enum
 class NutrientTypes(Enum):
     CALORIES = "calories"
     SUGAR = "sugar"
-    SAT_FATS = "saturated_fats"
+    SATURATED_FAT = "saturated_fat"
     SODIUM = "sodium"
-    FRUIT = "fruit_percentage"
+    FVN = "fvn_percentage"
     FIBERS = "fibers"
     PROTEINS = "proteins"
 
@@ -14,7 +14,8 @@ class NutrientTypes(Enum):
 bad_nutrients = [
     NutrientTypes.CALORIES,
     NutrientTypes.SUGAR,
-    NutrientTypes.SAT_FATS,
+    NutrientTypes.SATURATED_FAT,
     NutrientTypes.SODIUM,
 ]
-good_nutrients = [NutrientTypes.PROTEINS, NutrientTypes.FIBERS, NutrientTypes.FRUIT]
+
+good_nutrients = [NutrientTypes.PROTEINS, NutrientTypes.FIBERS, NutrientTypes.FVN]
