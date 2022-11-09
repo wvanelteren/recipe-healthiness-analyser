@@ -96,7 +96,7 @@ def analyse_recipes(recipes: list[Recipe]) -> list[Recipe]:
 
 def save_recipes_to_csv(recipes: list[Recipe]) -> None:
     df = pd.DataFrame.from_dict(recipes)
-    df.to_csv("analysed_recipes.csv")
+    df.to_csv("analysed_recipes.csv", index=False)
 
 
 def __convert_tolist(string) -> list[str]:
