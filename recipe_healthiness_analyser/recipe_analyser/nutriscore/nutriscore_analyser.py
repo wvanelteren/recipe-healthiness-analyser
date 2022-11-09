@@ -5,7 +5,9 @@ class NutriScoreAnalyser:
     score_table: dict[str, any]
 
     def __init__(self):
-        with open("nutriscore_table.json") as json_file:
+        with open(
+            "recipe_healthiness_analyser/recipe_analyser/nutriscore/nutriscore_table.json"  # noqa: E501
+        ) as json_file:
             self.score_table = json.load(json_file)
 
     def calculate_healthiness_score(
@@ -30,11 +32,11 @@ class NutriScoreAnalyser:
     ) -> str:
         raise NotImplementedError
 
-    def calculate_calories_score(calories: float) -> int:
-        raise NotImplementedError
+    def calculate_calories_score(self, calories: float) -> int:
+        return self.__calculate_nutrient_score(nutrient_key="calories", value=calories)
 
     def calculate_sugar_score(sugar: float) -> int:
-        raise NotImplementedError
+        return 3
 
     def calculate_saturated_fat_score(saturated_fat: float) -> int:
         raise NotImplementedError
@@ -50,6 +52,17 @@ class NutriScoreAnalyser:
 
     def calculate_fvn_score(percentage_fvn: float) -> int:
         raise NotImplementedError
+
+    def __calculate_nutrient_score(self, nutrient_key: str, value: float) -> int:
+        score_list: list[list[float, float, int]] = self.score_table.get(nutrient_key)
+        for score in score_list:
+            if self.in_range(
+                value=value,
+                lower_bound=score[0],
+                upper_bound=score[1],
+            ):
+                return score[2]
+        raise ValueError("Nutrient {nutrient_key} has an extreme, illogical value")
 
     @staticmethod
     def in_range(value: float, lower_bound: float, upper_bound: float) -> bool:

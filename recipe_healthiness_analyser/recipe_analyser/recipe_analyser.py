@@ -6,6 +6,9 @@ from recipe_healthiness_analyser.recipe_analyser.constants.constants import (  #
     CONVERSION_API_URL,
     HEADER,
 )
+from recipe_healthiness_analyser.recipe_analyser.nutriscore.nutriscore_analyser import (
+    NutriScoreAnalyser,
+)
 from recipe_healthiness_analyser.recipe_analyser.recipe import Recipe
 from recipe_healthiness_analyser.recipe_analyser.recipe_analyser_interface import (
     RecipeAnalyserInterface,
@@ -51,6 +54,11 @@ class RecipeAnalyser(RecipeAnalyserInterface):
         with open("tests/recipe-info.json") as json_file:
             recipe_info: dict[str, any] = json.load(json_file)
         return recipe_info
+
+    def get_nutriscore(self) -> int:
+        nutri_score_analyser: NutriScoreAnalyser = NutriScoreAnalyser()
+        score: int = nutri_score_analyser.calculate_calories_score(self.get_calories())
+        return score
 
     def get_calories(self) -> float:
         """Returns recipe's calorie content per 100 gram"""
