@@ -1,4 +1,4 @@
-from recipe_healthiness_analyser.recipe_analyser.constants.api_keys import (
+from recipe_healthiness_analyser.recipe_analyser.nutrition.constants.api_keys import (
     SPOONACULAR_API_KEY,
 )
 

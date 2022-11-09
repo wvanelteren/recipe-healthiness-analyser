@@ -52,7 +52,7 @@ def load_recipes() -> list[Recipe]:
             )
             recipe_list.append(recipe)
         except TypeError:
-            print(f"TypeError occured at  {index}")
+            print(f"TypeError occured at {index}")
             raise
     return recipe_list
 

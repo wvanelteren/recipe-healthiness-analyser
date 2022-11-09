@@ -1,9 +1,2 @@
-# flake8 doesn't support pyproject.toml for settings, so this file had to be created
-# to specify flake8 settings
-
 [flake8]
-# set line length to black's recommended line length
-max-line-length = 88
-per-file-ignores =
-    recipe_healthiness_analyser/recipe_analyser/recipe_analyser.py: E501
-    recipe_healthiness_analyser/recipe_analyser/constants/constants.py: E501
+ignore = E501, W503

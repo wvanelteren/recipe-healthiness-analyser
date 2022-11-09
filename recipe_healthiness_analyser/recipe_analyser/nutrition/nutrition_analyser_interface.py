@@ -1,7 +1,7 @@
 import abc
 
 
-class RecipeAnalyserInterface(metaclass=abc.ABCMeta):
+class NutritionAnalyserInterface(metaclass=abc.ABCMeta):
     @classmethod
     def __subclasshook__(cls, subclass):
         return (
