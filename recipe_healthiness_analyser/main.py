@@ -20,17 +20,15 @@ def load_recipes() -> list[Recipe]:
     Returns:
         list[Recipe]: List of all recipes in the recipes.csv file
     """
-    df: pd.DataFrame = pd.read_csv("../recipes-nutriscore/recipes_test.csv")
-
+    recipe_df: pd.DataFrame = pd.read_csv("../recipes-nutriscore/recipes_test.csv")
     recipe_list: list[Recipe] = []
 
     # TODO: df.iterrows() should be avoided in favour of vectorization for
     #       traversing a dataframe due to performance issues. However,
     #       since the included recipes.csv file only has 248 rows, this
     #       doesn't matter. Switch to vectorization for bigger datasets.
-    for index, row in df.iterrows():
+    for index, row in recipe_df.iterrows():
         try:
-            # Assigning key:value pairs while typechecking
             id: int = int(row[0])
             author: str = row[1]
             followers: int = int(row[2])
@@ -54,7 +52,7 @@ def load_recipes() -> list[Recipe]:
             )
             recipe_list.append(recipe)
         except TypeError:
-            print(f"TypeError occured at {row}: {index}")
+            print(f"TypeError occured at  {index}")
             raise
     return recipe_list
 
