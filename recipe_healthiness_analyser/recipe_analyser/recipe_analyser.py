@@ -67,6 +67,18 @@ class RecipeAnalyser(RecipeAnalyserInterface):
             vfn_percentage=self.get_vfn(),
         )
 
+    def get_nutriscore(self) -> str:
+        nutri_score_analyser: NutriScoreAnalyser = NutriScoreAnalyser()
+        return nutri_score_analyser.calculate_nutriscore(
+            calories=self.get_calories(),
+            sugar=self.get_sugar(),
+            saturated_fat=self.get_saturated_fat(),
+            sodium=self.get_sodium(),
+            protein=self.get_protein(),
+            fiber=self.get_fiber(),
+            vfn_percentage=self.get_vfn(),
+        )
+
     def get_calories(self) -> float:
         """Returns recipe's calorie content per 100 gram"""
         total_calories: float = self.__convert_to_kj(

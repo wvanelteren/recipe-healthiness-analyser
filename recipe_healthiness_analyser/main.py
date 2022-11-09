@@ -88,6 +88,7 @@ def analyse_recipes(recipes: list[Recipe]) -> list[Recipe]:
             fiber=recipe_analyser.get_fiber(),
             percentage_fvn=recipe_analyser.get_vfn(),
             healthiness_score=recipe_analyser.get_healthiness_score(),
+            nutri_score=recipe_analyser.get_nutriscore(),
         )
         analysed_recipes.append(analysed_recipe)
     return analysed_recipes
