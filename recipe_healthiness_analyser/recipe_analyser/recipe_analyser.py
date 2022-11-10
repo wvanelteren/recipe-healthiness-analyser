@@ -19,7 +19,18 @@ class RecipeAnalyser:
         self.nutriscore_analyser: NutriScoreAnalyser = NutriScoreAnalyser()
 
     def get_healthiness_score(self) -> int:
-        return self.nutri_score_analyser.calculate_healthiness_score(
+        print(
+            self.nutriscore_analyser.calculate_healthiness_score(
+                calories=self.get_calories(),
+                sugar=self.get_sugar(),
+                saturated_fat=self.get_saturated_fat(),
+                sodium=self.get_sodium(),
+                protein=self.get_protein(),
+                fiber=self.get_fiber(),
+                vfn_percentage=self.get_vfn(),
+            )
+        )
+        return self.nutriscore_analyser.calculate_healthiness_score(
             calories=self.get_calories(),
             sugar=self.get_sugar(),
             saturated_fat=self.get_saturated_fat(),
@@ -30,7 +41,18 @@ class RecipeAnalyser:
         )
 
     def get_nutriscore(self) -> str:
-        return self.nutri_score_analyser.calculate_nutriscore(
+        print(
+            self.nutriscore_analyser.calculate_nutriscore(
+                calories=self.get_calories(),
+                sugar=self.get_sugar(),
+                saturated_fat=self.get_saturated_fat(),
+                sodium=self.get_sodium(),
+                protein=self.get_protein(),
+                fiber=self.get_fiber(),
+                vfn_percentage=self.get_vfn(),
+            )
+        )
+        return self.nutriscore_analyser.calculate_nutriscore(
             calories=self.get_calories(),
             sugar=self.get_sugar(),
             saturated_fat=self.get_saturated_fat(),
