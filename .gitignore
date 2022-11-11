@@ -47,5 +47,9 @@ recipe_healthiness_analyser/recipe_analyser/nutrition/constants/api_keys.py
 recipes_test.csv
 spoonacular_result.json
 
+
 ### VisualStudioCode ###
 .vscode
+
+### R studio ###
+data_analysis/.Rhistory
