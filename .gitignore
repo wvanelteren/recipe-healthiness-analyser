@@ -41,7 +41,7 @@ coverage.xml
 .pydevproject
 
 # Api keys
-recipe_healthiness_analyser/recipe_analyser/constants/api_keys.py
+recipe_healthiness_analyser/recipe_analyser/nutrition/constants/api_keys.py
 
 # Assets
 recipes_test.csv
