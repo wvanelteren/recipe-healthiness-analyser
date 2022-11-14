@@ -51,7 +51,7 @@ To objectively determine the healthiness of a recipe, it also outputs a recipe's
 * [healthiness score (FSAm-NPS DI)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6143197/)
 * [NutriScore](https://www.iarc.who.int/wp-content/uploads/2021/09/IARC_Evidence_Summary_Brief_2.pdf)
 
-This project was created as part of my bachelor thesis. In my bachelor thesis, I analysed the recipes of popular Dutch Healhty Food Influencers on Instagram. You can find an analysis report here: [https://wvanelteren.github.io/recipe-healthiness-analyser/recipe_analysis_report.html](https://wvanelteren.github.io/recipe-healthiness-analyser/recipe_analysis_report.html)
+This project was created as part of my bachelor thesis. In my bachelor thesis, I analysed the recipes of popular Dutch Healhty Food Influencers on Instagram. You can find the analysis report here: [https://wvanelteren.github.io/recipe-healthiness-analyser/recipe_analysis_report.html](https://wvanelteren.github.io/recipe-healthiness-analyser/recipe_analysis_report.html)
 
 <img src="assets/img/healthiness_distribution_recipes_dutch_influencers.png" alt ="plot" width="500" height="350">
 
