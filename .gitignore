@@ -51,5 +51,9 @@ spoonacular_result.json
 ### VisualStudioCode ###
 .vscode
 
-### R studio ###
-data_analysis/.Rhistory
+### R ###
+docs/influencer_recipe_analysis/.Rhistory
+docs/influencer_recipe_analysis/recipes_analysis.r
+docs/influencer_recipe_analysis/recipe_analysis_report.rmd
+docs/influencer_recipe_analysis/nutriscore_cancer_risk.png
+docs/influencer_recipe_analysis/analysed_recipes.csv
