@@ -23,7 +23,7 @@
 <br />
 <div align="center">
   <a href="https://https://github.com/wvanelteren/recipe-healthiness-analyser">
-    <img src="assets/img/nutriscore_logo.png" alt="Logo" width="80" height="80">
+    <img src="assets/img/nutriscore_logo.png" alt="Logo" width="160" height="80">
   </a>
 
 <h3 align="center">Recipe Healthiness Analyser</h3>
@@ -53,7 +53,7 @@ To objectively determine the healthiness of a recipe, it also outputs a recipe's
 
 This project was created as part of my bachelor thesis. In my bachelor thesis, I analysed the recipes of popular Dutch Healhty Food Influencers on Instagram. You can find an analysis report here: [https://wvanelteren.github.io/recipe-healthiness-analyser/recipe_analysis_report.html](https://wvanelteren.github.io/recipe-healthiness-analyser/recipe_analysis_report.html)
 
-<img src="assets/img/healthiness_distribution_recipes_dutch_influencers.png" alt ="plot" width="500" height="500">
+<img src="assets/img/healthiness_distribution_recipes_dutch_influencers.png" alt ="plot" width="500" height="350">
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
